@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TicTacToeMaui.Views.TicTacToeGamePage"
+             xmlns:viewModels="clr-namespace:TicTacToeMaui.ViewModel"
+             x:DataType="viewModels:TicTacToeGamePageViewModel"
+             xmlns:models="clr-namespace:TicTacToeMaui.Models"
+             Title="TicTacToeGamePage">
+    <VerticalStackLayout VerticalOptions="CenterAndExpand" Padding="10" Spacing="20">
+
+        <Grid ColumnDefinitions="5*,5*" ColumnSpacing="10">
+            <Frame Grid.Column="0">
+                <Label Text="{Binding Player1Point,StringFormat='X - {0}'}" FontSize="28"/>
+            </Frame>
+            <Frame Grid.Column="1">
+                <Label Text="{Binding Player2Point,StringFormat='X - {0}'}" FontSize="28"/>
+            </Frame>
+        </Grid>
+        
+        <CollectionView ItemsSource="{Binding TicTacList}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Span="3" Orientation="Vertical" VerticalItemSpacing="20"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:TicTacToeModel">
+                    <Frame BackgroundColor="White" Padding="0" CornerRadius="20" HeightRequest="80" WidthRequest="80">
+                        <Label Text="{Binding SelectedText}" FontSize="28" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" />
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding Source={x:RelativeSource AncestorType={x:Type viewModels:TicTacToeGamePageViewModel}},Path=SelectedItemCommand}"
+                                CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Label Text="{Binding PlayerWinOrDrawText}" FontSize="28"/>
+
+        <Button Text="Restart Game" HeightRequest="50" Command="{Binding RestartGameCommand}"/>
+
+    </VerticalStackLayout>
+</ContentPage>
