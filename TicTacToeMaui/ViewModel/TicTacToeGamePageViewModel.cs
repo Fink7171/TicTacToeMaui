@@ -63,7 +63,7 @@ namespace TicTacToeMaui.ViewModel
         }
 
         [RelayCommand]
-        public void RestartGame()
+        private void RestartGame()
         {
             _isAnyoneWin = false;
             PlayerWinOrDrawText = " ";
